@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Button from '@/components/ui/button/Button.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -78,7 +79,7 @@ const handleDelete = (id:number) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="product in props.products" :key="product.id">
+                        <TableRow v-for="product in props.products.data" :key="product.id">
                             <TableCell class="font-medium">{{ product.id }}</TableCell>
                             <TableCell class="font-medium">{{ product.name }}</TableCell>
                             <TableCell>{{ product.price }}</TableCell>
@@ -92,6 +93,7 @@ const handleDelete = (id:number) => {
                         </TableRow>
                     </TableBody>
                 </Table>
+                <Pagination :links="props.products.links"/>
             </div>
         </div>
     </AppLayout>
