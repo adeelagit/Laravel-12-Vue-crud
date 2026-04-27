@@ -22,14 +22,21 @@ declare module 'vite/client' {
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+console.log('🚀 App initializing...');
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
+    resolve: (name) => {
+        console.log('📄 Resolving page:', name);
+        return resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue'));
+    },
     setup({ el, App, props, plugin }) {
+        console.log('✅ Setting up app with element:', el);
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
             .mount(el);
+        console.log('✅ App mounted successfully');
     },
     progress: {
         color: '#4B5563',
@@ -38,3 +45,4 @@ createInertiaApp({
 
 // This will set light / dark mode on page load...
 initializeTheme();
+console.log('🎨 Theme initialized');
