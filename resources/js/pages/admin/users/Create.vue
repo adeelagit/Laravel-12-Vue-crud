@@ -5,6 +5,9 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { usePermission } from '@/composables/usePermission';
+
+const { can } = usePermission();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -46,7 +49,7 @@ const handleSubmit = () => {
                     <div class="text-sm text-red-600" v-if="form.errors.password">{{ form.errors.password }}</div>
                 </div>
                 <div class="space-y-2">
-                    <Button type="submit" :disabled="form.processing">Add a User</Button>
+                    <Button type="submit" :disabled="form.processing" v-if="can('create users')" >Add a User</Button>
                 </div>
             </form>
         </div>

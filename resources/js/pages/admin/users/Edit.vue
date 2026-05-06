@@ -5,6 +5,9 @@ import { Head, useForm, router } from '@inertiajs/vue3';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { usePermission } from '@/composables/usePermission'
+
+const { can } = usePermission()
 
 interface User{
     id: number,
@@ -56,9 +59,7 @@ const handleDelete = () => {
                 </div>
                 <div class="space-y-2">
                     <!-- Show Edit button only if user has permission -->
-                    <Button  type="submit" :disabled="form.processing">Edit a User</Button>
-                    <!-- Show Delete button only if user has permission -->
-                    <Button class="bg-red-600 text-white ml-2" @click="handleDelete">Delete User</Button>
+                    <Button  type="submit" :disabled="form.processing" v-if="can('edit users')" >Edit a User</Button>
                 </div>
             </form>
         </div>

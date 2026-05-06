@@ -15,6 +15,9 @@ import {
 } from '@/components/ui/table';
 import Button from '@/components/ui/button/Button.vue';
 import Pagination from '@/components/Pagination.vue';
+import { usePermission } from '@/composables/usePermission';
+
+const { can } = usePermission();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,7 +77,7 @@ const handleDelete = (id:number) => {
                             <TableHead class="w-[100px]">Id</TableHead>
                             <TableHead>Name</TableHead>
                             <TableHead>Email</TableHead>
-                            <TableHead class="text-center">Action</TableHead>
+                            <TableHead class="text-center" v-if="can('edit users') || can('delete users')">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -84,11 +87,11 @@ const handleDelete = (id:number) => {
                             <TableCell>{{ user.email }}</TableCell>
                             <TableCell class="text-center space-x-2">
                                 <!-- Show Edit button only if user has permission -->
-                                <Link :href="route('admin.users.edit', [user.id])"> 
+                                <Link :href="route('admin.users.edit', [user.id])" v-if="can('edit users')" > 
                                     <Button class="bg-slate-600 text-white">Edit</Button>
                                 </Link>
                                 <!-- Show Delete button only if user has permission -->
-                                <Button class="bg-red-600 text-white" @click="handleDelete(user.id)">Delete</Button>
+                                <Button class="bg-red-600 text-white" @click="handleDelete(user.id)" v-if="can('delete users')" >Delete</Button>
                             </TableCell>
                         </TableRow>
                     </TableBody>
