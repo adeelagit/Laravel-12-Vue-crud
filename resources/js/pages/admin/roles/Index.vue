@@ -54,6 +54,16 @@ const handleDelete = (id:number) => {
             </Alert>
         </div>
 
+        <div v-if="page.props.flash?.error" class="mb-4">
+            <Alert class="bg-red-200">
+                <Rocket class="h-4 w-4"/>
+                <AlertTitle>Notification!</AlertTitle>
+                <AlertDescription>
+                    {{ page.props.flash?.error }}
+                </AlertDescription>
+            </Alert>
+        </div>
+
         <div class="">
             <!-- ROLES LIST -->
             <Card>

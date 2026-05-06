@@ -135,7 +135,7 @@ class RoleController extends Controller
         if ($role->name === 'Super Admin') {
             return redirect()
                 ->back()
-                ->with('message', 'Super Admin role cannot be deleted');
+                ->with('error', 'Super Admin role cannot be deleted');
         }
 
         $role->delete();

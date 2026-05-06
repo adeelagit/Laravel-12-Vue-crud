@@ -12,14 +12,8 @@ interface User{
     email: string,
 }
 
-interface Permissions{
-    can_edit: boolean,
-    can_delete: boolean,
-}
-
 const props = defineProps<{
     user: User,
-    permissions?: Permissions,
 }>();
 
 const form = useForm({
@@ -62,9 +56,9 @@ const handleDelete = () => {
                 </div>
                 <div class="space-y-2">
                     <!-- Show Edit button only if user has permission -->
-                    <Button v-if="props.permissions?.can_edit" type="submit" :disabled="form.processing">Edit a User</Button>
+                    <Button  type="submit" :disabled="form.processing">Edit a User</Button>
                     <!-- Show Delete button only if user has permission -->
-                    <Button v-if="props.permissions?.can_delete" class="bg-red-600 text-white ml-2" @click="handleDelete">Delete User</Button>
+                    <Button class="bg-red-600 text-white ml-2" @click="handleDelete">Delete User</Button>
                 </div>
             </form>
         </div>
