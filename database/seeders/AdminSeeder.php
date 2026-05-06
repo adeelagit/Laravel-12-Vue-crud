@@ -15,12 +15,15 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         //create admin 
-        Admin::firstOrCreate(
+        $admin = Admin::firstOrCreate(
             ['email' => 'admin@mail.com'],
             [
                 'name' => 'admin',
                 'password' => Hash::make('123456789')
             ]
         );
+
+        // Assign Super Admin role
+        $admin->syncRoles(['Super Admin']);
     }
 }

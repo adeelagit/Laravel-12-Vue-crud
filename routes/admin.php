@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\Admin\AuthController;
 use App\Http\Controllers\Auth\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RoleController;
+
 
 Route::prefix('admin/')->name('admin.')->group(function () {
 
@@ -25,5 +27,13 @@ Route::prefix('admin/')->name('admin.')->group(function () {
         Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+        //roles and permission routes
+        Route::get('roles', [RoleController::class, 'index'])->name('roles');
+        Route::post('roles', [RoleController::class, 'storeRole'])->name('store.roles');
+        Route::get(('roles/create'), [RoleController::class, 'createRole'])->name('roles.create');
+        Route::get('roles/{role}/edit', [RoleController::class, 'editRole'])->name('roles.edit');
+        Route::put('roles/{role}', [RoleController::class, 'updateRole'])->name('roles.update');
+        Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
     });
 });

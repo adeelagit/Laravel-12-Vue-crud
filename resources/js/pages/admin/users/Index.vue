@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
+import AppLayout from '@/layouts/admin/AdminSidebarLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import { Plus, Rocket } from 'lucide-vue-next';
@@ -32,6 +32,12 @@ interface User{
 
 interface Props{
     users: User[],
+    permissions: {
+        can_create: boolean,
+        can_edit: boolean,
+        can_delete: boolean,
+        can_view: boolean,
+    }
 }
 const props = defineProps<Props>();
 
@@ -58,7 +64,8 @@ const handleDelete = (id:number) => {
                 </Alert>
             </div>
             
-            <div>
+            <!-- Show Create button only if user has permission -->
+            <div v-if="props.permissions.can_create">
                 <Link :href="route('admin.users.create')" class="px-4 py-2 bg-slate-600 text-white rounded-md">
                     <Plus class="inline-block space-x-2" />
                     Create User
@@ -73,7 +80,7 @@ const handleDelete = (id:number) => {
                             <TableHead class="w-[100px]">Id</TableHead>
                             <TableHead>Name</TableHead>
                             <TableHead>Email</TableHead>
-                            <TableHead class="text-center">Action</TableHead>
+                            <TableHead v-if="props.permissions.can_edit || props.permissions.can_delete" class="text-center">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -81,11 +88,13 @@ const handleDelete = (id:number) => {
                             <TableCell class="font-medium">{{ user.id }}</TableCell>
                             <TableCell class="font-medium">{{ user.name }}</TableCell>
                             <TableCell>{{ user.email }}</TableCell>
-                            <TableCell class="text-center space-x-2">
-                                <Link :href="route('admin.users.edit', [user.id])"> 
+                            <TableCell v-if="props.permissions.can_edit || props.permissions.can_delete" class="text-center space-x-2">
+                                <!-- Show Edit button only if user has permission -->
+                                <Link v-if="props.permissions.can_edit" :href="route('admin.users.edit', [user.id])"> 
                                     <Button class="bg-slate-600 text-white">Edit</Button>
                                 </Link>
-                                <Button class="bg-red-600 text-white" @click="handleDelete(user.id)">Delete</Button>
+                                <!-- Show Delete button only if user has permission -->
+                                <Button v-if="props.permissions.can_delete" class="bg-red-600 text-white" @click="handleDelete(user.id)">Delete</Button>
                             </TableCell>
                         </TableRow>
                     </TableBody>
